@@ -1,0 +1,52 @@
+# Nmap 7.94 scan initiated Mon Apr  7 10:00:00 2026 as: nmap -sV -sC -oN nmap_sample.txt 10.10.10.1
+Nmap scan report for 10.10.10.1
+Host is up (0.042s latency).
+Not shown: 995 closed tcp ports (conn-refused)
+PORT     STATE SERVICE     VERSION
+22/tcp   open  ssh         OpenSSH 7.2p2 Ubuntu 4ubuntu2.10 (Ubuntu Linux; protocol 2.0)
+| ssh-hostkey:
+|   2048 81:21:ce:a1:1a:05:b1:69:4f:4d:ed:80:28:e8:99:05 (RSA)
+|   256 5b:a5:bb:67:91:1a:51:c2:d3:21:da:c0:ca:f0:db:9e (ECDSA)
+|_  256 6d:01:b7:73:ac:b0:93:6f:fa:b9:89:e6:ae:3c:ab:d3 (ED25519)
+80/tcp   open  http        Apache httpd 2.4.18 ((Ubuntu))
+|_http-server-header: Apache/2.4.18 (Ubuntu)
+|_http-title: Site doesn't have a title (text/html).
+| http-methods:
+|_  Supported Methods: OPTIONS GET HEAD POST
+139/tcp  open  netbios-ssn Samba smbd 3.X - 4.X (workgroup: WORKGROUP)
+445/tcp  open  netbios-ssn Samba smbd 4.3.11-Ubuntu (workgroup: WORKGROUP)
+3306/tcp open  mysql       MySQL 5.7.12-0ubuntu1
+| mysql-info:
+|   Protocol: 10
+|   Version: 5.7.12-0ubuntu1
+|   Thread ID: 8
+|   Capabilities flags: 63487
+|_  Status: Autocommit
+
+Host script results:
+|_nbstat: NetBIOS name: UBUNTU, NetBIOS user: <unknown>, NetBIOS MAC: <unknown>
+| smb-security-mode:
+|   account_used: guest
+|   authentication_level: user
+|   challenge_response: supported
+|_  message_signing: disabled (dangerous, but default)
+| smb2-security-mode:
+|   3.1.1:
+|_    Message signing enabled but not required
+| smb-os-discovery:
+|   OS: Windows 6.1 (Samba 4.3.11-Ubuntu)
+|   Computer name: ubuntu
+|   NetBIOS computer name: UBUNTU\x00
+|   Domain name: \x00
+|   FQDN: ubuntu
+|_  System time: 2026-04-07T10:01:23+00:00
+
+OS details: Linux 3.2 - 4.9
+Uptime guess: 0.021 days
+
+TRACEROUTE (using port 22/tcp)
+HOP RTT     ADDRESS
+1   0.44 ms 10.10.14.1
+2   0.52 ms 10.10.10.1
+
+# Nmap done at Mon Apr  7 10:00:45 2026 -- 1 IP address (1 host up) scanned in 44.91 seconds

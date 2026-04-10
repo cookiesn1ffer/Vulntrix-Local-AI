@@ -1,0 +1,35 @@
+# Secrets — NEVER commit these
+.env
+.env.*
+!.env.example
+
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+.Python
+
+# Virtual environment
+.venv/
+venv/
+env/
+
+# AI context / session data lives in ~/.pentest_ai/ (outside repo — not tracked)
+
+# Logs
+*.log
+uvicorn.log
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Editor
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Temp uploads
+/tmp/pentest_ai_*

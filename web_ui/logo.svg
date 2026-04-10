@@ -1,0 +1,100 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="200" height="200">
+  <defs>
+    <!-- Main blob gradient: cyan → blue → purple -->
+    <radialGradient id="blobGrad" cx="45%" cy="40%" r="65%">
+      <stop offset="0%"   stop-color="#7ee8fa"/>
+      <stop offset="35%"  stop-color="#5b9cf6"/>
+      <stop offset="65%"  stop-color="#818cf8"/>
+      <stop offset="100%" stop-color="#c084fc"/>
+    </radialGradient>
+    <!-- Secondary blob (pink overlay) -->
+    <radialGradient id="blobGrad2" cx="70%" cy="35%" r="55%">
+      <stop offset="0%"   stop-color="#f0abfc" stop-opacity="0.7"/>
+      <stop offset="100%" stop-color="#818cf8" stop-opacity="0"/>
+    </radialGradient>
+    <!-- Inner glow -->
+    <radialGradient id="innerGlow" cx="50%" cy="45%" r="50%">
+      <stop offset="0%"   stop-color="#ffffff" stop-opacity="0.35"/>
+      <stop offset="100%" stop-color="#ffffff" stop-opacity="0"/>
+    </radialGradient>
+    <!-- Drop shadow filter -->
+    <filter id="shadow" x="-20%" y="-10%" width="140%" height="150%">
+      <feDropShadow dx="0" dy="12" stdDeviation="14" flood-color="#6366f1" flood-opacity="0.35"/>
+    </filter>
+    <!-- Blur filter for outer glow blobs -->
+    <filter id="blur4" x="-30%" y="-30%" width="160%" height="160%">
+      <feGaussianBlur stdDeviation="4"/>
+    </filter>
+    <!-- Clip to keep blob contained -->
+    <clipPath id="blobClip">
+      <path d="M100,22 C128,16 158,30 168,58 C178,82 170,110 158,132
+               C146,156 128,174 100,178 C72,182 50,164 38,140
+               C24,114 22,84 34,60 C46,34 72,28 100,22 Z"/>
+    </clipPath>
+  </defs>
+
+  <!-- Drop shadow layer -->
+  <ellipse cx="100" cy="185" rx="46" ry="8" fill="#4f46e5" opacity="0.18"/>
+
+  <!-- Main blob shape -->
+  <path d="M100,22 C128,16 158,30 168,58 C178,82 170,110 158,132
+           C146,156 128,174 100,178 C72,182 50,164 38,140
+           C24,114 22,84 34,60 C46,34 72,28 100,22 Z"
+        fill="url(#blobGrad)" filter="url(#shadow)"/>
+
+  <!-- Pink accent blob (top-right) -->
+  <path d="M130,18 C155,10 175,28 178,55 C181,78 168,100 150,115
+           C138,124 122,128 115,120 C108,112 118,98 124,82
+           C130,64 126,36 130,18 Z"
+        fill="url(#blobGrad2)" filter="url(#blur4)" opacity="0.75"/>
+
+  <!-- Inner shine/glow -->
+  <path d="M100,22 C128,16 158,30 168,58 C178,82 170,110 158,132
+           C146,156 128,174 100,178 C72,182 50,164 38,140
+           C24,114 22,84 34,60 C46,34 72,28 100,22 Z"
+        fill="url(#innerGlow)"/>
+
+  <!-- White "V" lettermark -->
+  <text x="100" y="133"
+        font-family="'Segoe UI', 'Inter', 'Arial', sans-serif"
+        font-size="96"
+        font-weight="700"
+        fill="white"
+        text-anchor="middle"
+        letter-spacing="-2"
+        style="filter:drop-shadow(0 2px 8px rgba(99,102,241,0.3))">V</text>
+
+  <!-- 4-point sparkle: left of V -->
+  <g transform="translate(58,105)" fill="white" opacity="0.9">
+    <polygon points="0,-6 1.2,-1.2 6,0 1.2,1.2 0,6 -1.2,1.2 -6,0 -1.2,-1.2"/>
+  </g>
+  <!-- 4-point sparkle: right of V -->
+  <g transform="translate(142,105)" fill="white" opacity="0.9">
+    <polygon points="0,-5 1,-1 5,0 1,1 0,5 -1,1 -5,0 -1,-1"/>
+  </g>
+  <!-- tiny sparkle top-right blob area -->
+  <g transform="translate(155,48)" fill="#e879f9" opacity="0.85">
+    <polygon points="0,-4 0.8,-0.8 4,0 0.8,0.8 0,4 -0.8,0.8 -4,0 -0.8,-0.8"/>
+  </g>
+
+  <!-- Floating sphere top-left -->
+  <circle cx="72" cy="26" r="5.5" fill="#60a5fa" opacity="0.85"/>
+  <circle cx="70.5" cy="24.5" r="1.8" fill="white" opacity="0.6"/>
+
+  <!-- Floating micro-sphere top-center -->
+  <circle cx="108" cy="18" r="3" fill="#a5b4fc" opacity="0.7"/>
+  <circle cx="107" cy="17" r="1" fill="white" opacity="0.5"/>
+
+  <!-- Teal triangle accent bottom-left -->
+  <polygon points="38,148 43,142 43,148" fill="#2dd4bf" opacity="0.8"/>
+
+  <!-- Green diamond accent bottom-left-ish -->
+  <g transform="translate(44,162) rotate(45)">
+    <rect x="-3.5" y="-3.5" width="7" height="7" fill="#34d399" opacity="0.75"/>
+  </g>
+
+  <!-- Pink diamond top-right -->
+  <g transform="translate(162,62) rotate(45)">
+    <rect x="-4" y="-4" width="8" height="8" fill="#f472b6" opacity="0.8"/>
+  </g>
+</svg>

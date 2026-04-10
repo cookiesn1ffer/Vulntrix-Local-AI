@@ -1,0 +1,33 @@
+===============================================================
+Gobuster v3.6
+by OJ Reeves (@TheColonial) & Christian Mehlmauer (@firefart)
+===============================================================
+[+] Url:                     http://10.10.10.1
+[+] Method:                  GET
+[+] Threads:                 10
+[+] Wordlist:                /usr/share/wordlists/dirbuster/directory-list-2.3-medium.txt
+[+] Negative Status codes:   404
+[+] User Agent:              gobuster/3.6
+[+] Extensions:              php,txt,html,bak
+[+] Timeout:                 10s
+===============================================================
+Starting gobuster in directory enumeration mode
+===============================================================
+/.htaccess            (Status: 403) [Size: 276]
+/.htpasswd            (Status: 403) [Size: 276]
+/index.html           (Status: 200) [Size: 11321]
+/login.php            (Status: 200) [Size: 1432]
+/admin                (Status: 301) [Size: 312] [--> http://10.10.10.1/admin/]
+/uploads              (Status: 301) [Size: 314] [--> http://10.10.10.1/uploads/]
+/config.php           (Status: 200) [Size: 0]
+/backup               (Status: 301) [Size: 313] [--> http://10.10.10.1/backup/]
+/phpinfo.php          (Status: 200) [Size: 82416]
+/.git                 (Status: 301) [Size: 310] [--> http://10.10.10.1/.git/]
+/wp-admin             (Status: 301) [Size: 315] [--> http://10.10.10.1/wp-admin/]
+/api                  (Status: 301) [Size: 310] [--> http://10.10.10.1/api/]
+/api/v1/users         (Status: 200) [Size: 2341]
+/secret.txt           (Status: 200) [Size: 64]
+/db.php.bak           (Status: 200) [Size: 128]
+===============================================================
+2026/04/07 10:05:31 Finished
+===============================================================

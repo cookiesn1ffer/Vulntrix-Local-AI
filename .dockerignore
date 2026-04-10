@@ -1,0 +1,55 @@
+# Vulntrix — Docker build exclusions
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+*.egg-info/
+dist/
+build/
+.eggs/
+
+# Virtual environments
+.venv/
+venv/
+env/
+
+# Secrets & certs (mount at runtime, never bake into image)
+.env
+certs/
+*.key
+*.crt
+*.pem
+
+# Test artefacts
+.pytest_cache/
+*.pytest.ini
+htmlcov/
+.coverage
+tests/
+
+# IDE / OS
+.idea/
+.vscode/
+*.code-workspace
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+
+# Git
+.git/
+.gitignore
+
+# Logs (generated at runtime)
+logs/
+
+# Target data (mounted as volume)
+~/.vulntrix/
+
+# Windows launcher (not needed in container)
+run-hidden.vbs
+tray.py
+desktop_app.py

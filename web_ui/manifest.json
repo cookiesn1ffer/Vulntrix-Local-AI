@@ -1,0 +1,57 @@
+{
+  "name": "Vulntrix",
+  "short_name": "Vulntrix",
+  "description": "Local AI Penetration Testing Suite — 100% offline, no API keys required.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "landscape",
+  "background_color": "#1a1a1e",
+  "theme_color": "#8b6cf7",
+  "lang": "en",
+  "categories": ["security", "utilities", "productivity"],
+  "icons": [
+    {
+      "src": "/static/logo.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    },
+    {
+      "src": "/static/icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/static/icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Pentest Chat",
+      "short_name": "Chat",
+      "description": "Open the AI pentest assistant",
+      "url": "/?view=chat",
+      "icons": [{ "src": "/static/logo.svg", "sizes": "any" }]
+    },
+    {
+      "name": "Recon Analyser",
+      "short_name": "Recon",
+      "description": "Upload and analyse scan output",
+      "url": "/?view=recon",
+      "icons": [{ "src": "/static/logo.svg", "sizes": "any" }]
+    },
+    {
+      "name": "CVE Lookup",
+      "short_name": "CVE",
+      "description": "Look up CVEs and vulnerabilities",
+      "url": "/?view=cve",
+      "icons": [{ "src": "/static/logo.svg", "sizes": "any" }]
+    }
+  ],
+  "screenshots": []
+}
