@@ -120,14 +120,6 @@ SESSION_TTL_HOURS=8
 
 When auth is enabled the browser shows a login screen. A **UUID session token** is returned on login and stored in `sessionStorage` — your raw password is never kept in the browser. Sessions expire after `SESSION_TTL_HOURS` and can be revoked with the 🔒 Lock button in the sidebar.
 
-> **⚠ Security — never commit `.env`**
->
-> `.env` contains your `BOT_SECRET` in plain text. It is listed in `.gitignore` and must **never** be committed to version control.
->
-> - For Docker / CI: pass the secret as an environment variable (`-e BOT_SECRET=…`) or a Docker secret — not a baked-in file.
-> - For production: use a secrets manager (HashiCorp Vault, AWS Secrets Manager, etc.) and inject `BOT_SECRET` at runtime.
-> - Rotate the secret immediately if it is ever accidentally exposed in git history (`git filter-repo` or BFG Repo Cleaner).
-
 ---
 
 ## TLS / HTTPS
