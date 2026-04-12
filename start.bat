@@ -1,21 +1,19 @@
 @echo off
 setlocal
 cd /d "%~dp0"
-<<<<<<< HEAD
-echo Starting Vulntrix...
-
-=======
 echo.
 echo   ==========================================
-echo     Vulntrix — Starting...
+echo     Vulntrix -- Starting...
 echo   ==========================================
 echo.
 
-:: ── Python interpreter ──────────────────────────────────────────────────────
+:: ── Python interpreter ───────────────────────────────────────────────────────
 if exist ".venv\Scripts\python.exe" (
     set PY=.venv\Scripts\python.exe
 ) else if exist "venv\Scripts\python.exe" (
     set PY=venv\Scripts\python.exe
+) else if exist "%LocalAppData%\Programs\Python\Launcher\py.exe" (
+    set PY=py -3
 ) else (
     where python >NUL 2>&1
     if ERRORLEVEL 1 (
@@ -27,32 +25,11 @@ if exist ".venv\Scripts\python.exe" (
 )
 echo [OK] Python: %PY%
 
-:: ── Ollama ───────────────────────────────────────────────────────────────────
->>>>>>> d7101574717a7a3e5ab546aead0e812542d08d04
+:: ── Ollama ────────────────────────────────────────────────────────────────────
 tasklist /FI "IMAGENAME eq ollama.exe" 2>NUL | find /I "ollama.exe" >NUL
 if ERRORLEVEL 1 (
     where ollama >NUL 2>&1
     if ERRORLEVEL 1 (
-<<<<<<< HEAD
-        echo [WARN] Ollama not found in PATH. Install from https://ollama.com
-    ) else (
-        echo Starting Ollama...
-        start /B ollama serve
-        timeout /t 3 /nobreak >nul
-    )
-)
-
-if exist ".venv\Scripts\python.exe" (
-    set PY=.venv\Scripts\python.exe
-) else if exist "%LocalAppData%\Programs\Python\Launcher\py.exe" (
-    set PY=py -3
-) else (
-    set PY=python
-)
-
-if "%PORT%"=="" set PORT=8000
-start "" "http://localhost:%PORT%"
-=======
         echo [WARN] Ollama not found. Install from https://ollama.com
     ) else (
         echo [*] Starting Ollama...
@@ -64,31 +41,26 @@ start "" "http://localhost:%PORT%"
     echo [OK] Ollama already running
 )
 
-:: ── TLS detection — let web_server.py pick the right port/scheme ─────────────
-:: Do NOT force PORT here. web_server.py auto-detects:
-::   certs\server.crt + server.key present  →  HTTPS on 8443
-::   no certs                               →  HTTP  on 8000
-:: Reading that decision back so we open the right URL in the browser.
-set PORT_HTTP=8000
-set PORT_HTTPS=8443
+:: ── TLS detection — web_server.py auto-picks port/scheme ─────────────────────
+::   certs\server.crt + server.key present  ->  HTTPS on 8443
+::   no certs                               ->  HTTP  on 8000
+set PORT=8000
 set SCHEME=http
-set PORT=%PORT_HTTP%
 
 if exist "certs\server.crt" if exist "certs\server.key" (
+    set PORT=8443
     set SCHEME=https
-    set PORT=%PORT_HTTPS%
-    echo [OK] TLS certs found — will use https://localhost:%PORT_HTTPS%
+    echo [OK] TLS certs found -- using https://localhost:8443
 ) else (
-    echo [*] No TLS certs — will use http://localhost:%PORT_HTTP%
+    echo [*] No TLS certs -- using http://localhost:8000
 )
 
-:: Allow manual override: set PORT=XXXX before running the bat
+:: Allow manual port override: set VULNTRIX_PORT=XXXX before running
 if not "%VULNTRIX_PORT%"=="" set PORT=%VULNTRIX_PORT%
 
-:: Open browser after a short delay (server needs ~2 s to bind)
+:: Open browser after server has had time to bind (~2 s)
 start "" /b cmd /c "timeout /t 2 /nobreak >nul && start %SCHEME%://localhost:%PORT%"
 
 echo [*] Starting Vulntrix server... (Ctrl+C to stop)
 echo.
->>>>>>> d7101574717a7a3e5ab546aead0e812542d08d04
 %PY% web_server.py

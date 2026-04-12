@@ -97,11 +97,7 @@ else {
 $PipExe = Join-Path $VenvDir "Scripts\pip.exe"
 $PyExe  = Join-Path $VenvDir "Scripts\python.exe"
 
-<<<<<<< HEAD
 & $PyExe -m pip install --upgrade pip --quiet
-=======
-& $PipExe install --upgrade pip --quiet
->>>>>>> d7101574717a7a3e5ab546aead0e812542d08d04
 
 # ---- Python packages -----------------------------------------
 Step "Installing Python packages"
@@ -235,11 +231,7 @@ Step "Creating desktop shortcut"
 
 $WshShell = New-Object -ComObject WScript.Shell
 
-<<<<<<< HEAD
 $DesktopLnk = Join-Path ([Environment]::GetFolderPath("Desktop")) "AI UnCensored Bot.lnk"
-=======
-$DesktopLnk = "$env:USERPROFILE\Desktop\AI UnCensored Bot.lnk"
->>>>>>> d7101574717a7a3e5ab546aead0e812542d08d04
 $Shortcut = $WshShell.CreateShortcut($DesktopLnk)
 $Shortcut.TargetPath       = $PyExe
 $Shortcut.Arguments        = "`"$(Join-Path $ScriptDir 'desktop_app.py')`""

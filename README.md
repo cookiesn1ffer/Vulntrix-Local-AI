@@ -17,11 +17,18 @@ chmod +x install.sh && ./install.sh   # one-time setup
 ```
 
 ### Windows
+```powershell
+# Run from an elevated PowerShell:
+Set-ExecutionPolicy Bypass -Scope Process -Force
+.\install.ps1     # one-time setup (creates venv, installs deps, pulls models)
 ```
-install.ps1       ← one-time setup
-start.bat         ← run server
+```
+start.bat         ← run server  (HTTP :8000 or HTTPS :8443 if certs/ present)
 run-hidden.vbs    ← tray icon, no CMD window
 ```
+
+> **Note:** The installer correctly resolves the Desktop path on OneDrive-synced accounts.  
+> Re-run `install.ps1` any time to repair shortcuts or re-pull models.
 
 ### Docker
 ```bash
@@ -77,6 +84,14 @@ docker run -p 8443:8443 \
 - ARIA labels added to key interactive elements for better accessibility.
 - `<br>` literal normalisation extended to handle HTML-entity-encoded variants emitted by some model families.
 - Chat streaming stabilised: plain-text during stream, full markdown render on completion.
+
+**Windows fixes**
+- `install.ps1` — Desktop shortcut path now resolved via `[Environment]::GetFolderPath("Desktop")` so it works correctly on OneDrive-synced Desktops (previously crashed with a path-not-found error).
+- `install.ps1` — pip upgrade inside the venv now uses `python -m pip install --upgrade pip` (the correct method; calling `pip.exe` directly to upgrade itself fails on Windows).
+- `web_server.py` — `WindowsSelectorEventLoopPolicy` applied before `uvicorn.run` on Windows, eliminating the `ConnectionResetError: [WinError 10054]` spam in the console caused by the default `ProactorEventLoop` on TLS connections.
+
+**AI output formatting**
+- System prompts now include explicit Markdown-only formatting rules — models no longer emit raw `<br>` tags or use single-backtick spans for multi-line commands.
 
 **Fixes carried from v2.x**
 - Browser cache-busting for `app.js` and `index.html` — no more stale JS after updates.
