@@ -1,0 +1,38 @@
+# Vulntrix — Python dependencies
+# Install: pip install -r requirements.txt
+# In venv:  .venv/bin/pip install -r requirements.txt
+#
+# Versions are pinned for reproducibility.
+# To upgrade: pip install -U -r requirements.txt  then update versions here.
+
+# ── Core (required) ────────────────────────────────────────────────────────
+fastapi==0.115.6            # web server framework
+uvicorn[standard]==0.32.1   # ASGI server (includes websockets + watchfiles)
+python-multipart==0.0.20    # file upload support in FastAPI
+requests==2.32.3            # HTTP client used by OllamaClient (synchronous)
+httpx==0.28.1               # async HTTP client used by health checks
+pydantic==2.10.4            # request/response validation
+
+# ── CLI interface ───────────────────────────────────────────────────────────
+rich==13.9.4                # coloured output, tables, panels, markdown
+prompt_toolkit==3.0.48      # interactive REPL: history, tab-completion, keybindings
+
+# ── Desktop app ─────────────────────────────────────────────────────────────
+Pillow==11.1.0              # icon generation for system tray
+pystray==0.19.5             # system tray icon (Windows/Linux/Mac)
+# tkinter ships with Python. If missing:
+#   Arch:           sudo pacman -S tk
+#   Ubuntu/Debian:  sudo apt install python3-tk
+#   Fedora:         sudo dnf install python3-tkinter
+
+# ── TLS cert generation ─────────────────────────────────────────────────────
+cryptography==44.0.2        # used by scripts/gen_cert.py to generate self-signed certs
+
+# ── Testing ─────────────────────────────────────────────────────────────────
+pytest==8.3.4               # test runner — run: pytest tests/ -v
+httpx==0.28.1               # required by FastAPI TestClient (already pinned above)
+
+# ── Optional: for running generated exploit code ────────────────────────────
+# pwntools==4.13.1          # CTF/exploit framework
+# impacket==0.12.0          # SMB, Kerberos, NTLM tooling
+# paramiko==3.5.0           # SSH automation

@@ -1,0 +1,43 @@
+# Vulntrix systemd user service
+# ─────────────────────────────
+# Installs as a per-user service (no root needed).
+# The install.sh script copies and enables this automatically.
+#
+# Manual install:
+#   mkdir -p ~/.config/systemd/user
+#   cp linux/vulntrix.service ~/.config/systemd/user/vulntrix.service
+#   # Edit WorkingDirectory and ExecStart below to match your install path
+#   systemctl --user daemon-reload
+#   systemctl --user enable --now vulntrix.service
+#
+# Check status:   systemctl --user status vulntrix
+# View logs:      journalctl --user -u vulntrix -f
+
+[Unit]
+Description=Vulntrix — Local AI Pentest Suite
+After=network.target
+Wants=network.target
+
+[Service]
+Type=simple
+WorkingDirectory=INSTALL_DIR
+ExecStart=INSTALL_DIR/.venv/bin/python INSTALL_DIR/web_server.py
+Restart=on-failure
+RestartSec=5
+
+# Environment
+Environment=PYTHONUNBUFFERED=1
+# Uncomment to load .env from a custom location:
+# EnvironmentFile=INSTALL_DIR/.env
+
+# Resource limits (optional hardening)
+# MemoryMax=512M
+# CPUQuota=80%
+
+# Logging — journald picks up stdout/stderr automatically
+StandardOutput=journal
+StandardError=journal
+SyslogIdentifier=vulntrix
+
+[Install]
+WantedBy=default.target

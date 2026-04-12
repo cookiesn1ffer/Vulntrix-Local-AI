@@ -1,0 +1,61 @@
+╔══════════╣ System Information
+╚ https://book.hacktricks.xyz/linux-hardening/privilege-escalation
+Hostname: ubuntu
+OS: Ubuntu 16.04.7 LTS
+Kernel version: 4.4.0-142-generic
+Architecture: x86_64
+
+╔══════════╣ Current user
+╚ Current user: www-data
+
+╔══════════╣ Sudo version
+╚ Sudo version 1.8.16
+
+[+] Checking sudo -l
+www-data can run the following commands on ubuntu:
+    (ALL) NOPASSWD: /usr/bin/python3 /opt/scripts/cleanup.py
+
+╔══════════╣ SUID files
+-rwsr-xr-x 1 root root 40128 Mar 25 2019 /usr/bin/passwd
+-rwsr-xr-x 1 root root 44680 May  7 2014 /usr/bin/chsh
+-rwsr-sr-x 1 daemon daemon 51464 Jan 14 2016 /usr/bin/at
+-rwsr-xr-x 1 root root 136808 Jan 20 2019 /usr/bin/sudo
+-rwsr-xr-x 1 root root 10232 Mar 27 2017 /usr/bin/vmware-user-suid-wrapper
+-rwsr-xr-x 1 root root 78012 Mar 22 2019 /usr/bin/gpasswd
+-rwsr-xr-x 1 root root 40432 Mar 25 2019 /usr/bin/chfn
+-rwsr-xr-x 1 root root 27608 Jun 14 2017 /usr/bin/newgrp
+-rwsr-xr-x 1 root root 69528 Mar 22 2019 /usr/bin/newgid
+-rwsr-xr-x 1 root root 34888 Nov 25 2018 /bin/umount
+-rwsr-xr-x 1 root root 26492 Nov 25 2018 /bin/fusermount
+-rwsr-xr-x 1 root root 43088 Oct 15 2018 /bin/mount
+-rwsr-xr-x 1 root root 44168 May  7 2014 /bin/ping
+-rwsr-xr-x 1 root root 40000 Mar 25 2019 /bin/su
+-rwsr-xr-x 1 root root 28592 Mar  1 2019 /bin/ntfs-3g
+
+╔══════════╣ Cron jobs
+-rw-r--r-- 1 root root   722 Apr  5 03:45 /etc/crontab
+* * * * * root python3 /opt/scripts/cleanup.py
+*/5 * * * * root /bin/bash /opt/scripts/backup.sh
+
+╔══════════╣ Writable files in /opt
+-rwxrwxrwx 1 root root 238 Apr  5 03:44 /opt/scripts/cleanup.py
+-rwxr-xr-x 1 root root 128 Apr  5 03:44 /opt/scripts/backup.sh
+
+╔══════════╣ Password files
+/etc/passwd: www-data:x:33:33:www-data:/var/www:/usr/sbin/nologin
+Root: root:$6$randomsalt$LoremIpsumHashValueHere:18240:0:99999:7:::
+
+╔══════════╣ Interesting files in /home
+/home/john/.ssh/id_rsa (readable by www-data)
+/home/john/user.txt
+
+╔══════════╣ Network info
+Active connections:
+tcp   0.0.0.0:22   0.0.0.0:*   LISTEN
+tcp   0.0.0.0:80   0.0.0.0:*   LISTEN
+tcp   127.0.0.1:3306  0.0.0.0:*  LISTEN
+
+╔══════════╣ Installed software versions
+python3 3.5.2
+php 7.0.33
+mysql 5.7.12

@@ -1,0 +1,44 @@
+# Nmap 7.99 scan initiated Wed Apr  8 20:58:03 2026 as: "C:\\Program Files (x86)\\Nmap\\nmap.exe" -sS -sV -oN scan.txt 192.168.1.50
+Nmap scan report for 192.168.1.50
+Host is up (0.0037s latency).
+Not shown: 997 closed tcp ports (reset)
+PORT     STATE SERVICE VERSION
+22/tcp   open  ssh     OpenSSH 8.9p1 Ubuntu 3ubuntu0.14 (Ubuntu Linux; protocol 2.0)
+3000/tcp open  ppp?
+8080/tcp open  http    Apache httpd 2.4.25 ((Debian))
+1 service unrecognized despite returning data. If you know the service/version, please submit the following fingerprint at https://nmap.org/cgi-bin/submit.cgi?new-service :
+SF-Port3000-TCP:V=7.99%I=7%D=4/8%Time=69D67411%P=i686-pc-windows-windows%r
+SF:(GetRequest,126B3,"HTTP/1\.1\x20200\x20OK\r\nAccess-Control-Allow-Origi
+SF:n:\x20\*\r\nX-Content-Type-Options:\x20nosniff\r\nX-Frame-Options:\x20S
+SF:AMEORIGIN\r\nFeature-Policy:\x20payment\x20'self'\r\nX-Recruiting:\x20/
+SF:#/jobs\r\nAccept-Ranges:\x20bytes\r\nCache-Control:\x20public,\x20max-a
+SF:ge=0\r\nLast-Modified:\x20Mon,\x2006\x20Apr\x202026\x2006:33:15\x20GMT\
+SF:r\nETag:\x20W/\"124fa-19d617ed774\"\r\nContent-Type:\x20text/html;\x20c
+SF:harset=UTF-8\r\nContent-Length:\x2075002\r\nVary:\x20Accept-Encoding\r\
+SF:nDate:\x20Wed,\x2008\x20Apr\x202026\x2015:28:18\x20GMT\r\nConnection:\x
+SF:20close\r\n\r\n<!--\n\x20\x20~\x20Copyright\x20\(c\)\x202014-2026\x20Bj
+SF:oern\x20Kimminich\x20&\x20the\x20OWASP\x20Juice\x20Shop\x20contributors
+SF:\.\n\x20\x20~\x20SPDX-License-Identifier:\x20MIT\n\x20\x20-->\n\n<!doct
+SF:ype\x20html>\n<html\x20lang=\"en\"\x20data-beasties-container>\n<head>\
+SF:n\x20\x20<meta\x20charset=\"utf-8\">\n\x20\x20<title>OWASP\x20Juice\x20
+SF:Shop</title>\n\x20\x20<meta\x20name=\"description\"\x20content=\"Probab
+SF:ly\x20the\x20most\x20modern\x20and\x20sophisticated\x20insecure\x20web\
+SF:x20application\">\n\x20\x20<meta\x20name=\"viewport\"\x20content=\"widt
+SF:h=device-width,\x20initial-scale=1\">\n\x20\x20<link\x20id=\"favicon\"\
+SF:x20rel=\"icon\"\x20")%r(Help,2F,"HTTP/1\.1\x20400\x20Bad\x20Request\r\n
+SF:Connection:\x20close\r\n\r\n")%r(NCP,2F,"HTTP/1\.1\x20400\x20Bad\x20Req
+SF:uest\r\nConnection:\x20close\r\n\r\n")%r(HTTPOptions,EA,"HTTP/1\.1\x202
+SF:04\x20No\x20Content\r\nAccess-Control-Allow-Origin:\x20\*\r\nAccess-Con
+SF:trol-Allow-Methods:\x20GET,HEAD,PUT,PATCH,POST,DELETE\r\nVary:\x20Acces
+SF:s-Control-Request-Headers\r\nContent-Length:\x200\r\nDate:\x20Wed,\x200
+SF:8\x20Apr\x202026\x2015:28:18\x20GMT\r\nConnection:\x20close\r\n\r\n")%r
+SF:(RTSPRequest,EA,"HTTP/1\.1\x20204\x20No\x20Content\r\nAccess-Control-Al
+SF:low-Origin:\x20\*\r\nAccess-Control-Allow-Methods:\x20GET,HEAD,PUT,PATC
+SF:H,POST,DELETE\r\nVary:\x20Access-Control-Request-Headers\r\nContent-Len
+SF:gth:\x200\r\nDate:\x20Wed,\x2008\x20Apr\x202026\x2015:28:18\x20GMT\r\nC
+SF:onnection:\x20close\r\n\r\n");
+MAC Address: A8:A7:95:CF:F0:A7 (Hon Hai Precision Ind.)
+Service Info: OS: Linux; CPE: cpe:/o:linux:linux_kernel
+
+Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .
+# Nmap done at Wed Apr  8 20:58:18 2026 -- 1 IP address (1 host up) scanned in 15.06 seconds

@@ -1,0 +1,897 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="theme-color" content="#8b6cf7">
+  <meta name="description" content="Local AI Penetration Testing Suite — 100% offline, no API keys.">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Vulntrix">
+  <meta name="application-name" content="Vulntrix">
+  <meta name="msapplication-TileColor" content="#8b6cf7">
+
+  <title>Vulntrix</title>
+
+  <!-- Icons -->
+  <link rel="icon" href="/static/logo.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="/static/icons/icon-192.png">
+  <link rel="icon" type="image/png" sizes="192x192" href="/static/icons/icon-192.png">
+  <link rel="icon" type="image/png" sizes="512x512" href="/static/icons/icon-512.png">
+
+  <!-- PWA manifest -->
+  <link rel="manifest" href="/static/manifest.json">
+
+  <link rel="stylesheet" href="/static/style.css">
+</head>
+<body data-theme="dark">
+<div class="shell">
+
+  <!-- ══════════════════════ SIDEBAR ══════════════════════ -->
+  <aside class="sidebar">
+
+    <div class="brand">
+      <img src="/static/logo.svg" alt="Vulntrix" class="brand-logo-img">
+      <div>
+        <div class="brand-name">Vulntrix <span id="versionBadge" class="version-badge"></span></div>
+        <div class="brand-sub">Local AI Workspace</div>
+      </div>
+      <div class="brand-actions">
+        <button id="sidebarToggle" class="btn-sidebar-toggle" title="Toggle sidebar" aria-label="Toggle sidebar">☰</button>
+      </div>
+    </div>
+
+    <!-- Target -->
+    <div class="sb-block">
+      <div class="sb-label">Active Target</div>
+      <div id="currentTargetBadge" class="target-badge">No target set</div>
+      <div class="target-input-row">
+        <input id="targetInput" type="text" placeholder="10.10.10.1 or hostname" autocomplete="off" spellcheck="false" />
+        <button id="setTargetBtn" class="btn-set" title="Set target">▶</button>
+      </div>
+    </div>
+
+    <!-- Nav -->
+    <div class="sb-nav-wrap">
+
+      <div class="nav-section-label">Chat</div>
+      <nav class="nav">
+        <button class="nav-btn active" data-view="chat">
+          <span class="nav-icon">💬</span><span>Pentest Chat</span>
+        </button>
+        <button class="nav-btn" data-view="free">
+          <span class="nav-icon">🤖</span><span>AI Chat</span>
+          <span class="nav-tag">Uncensored</span>
+        </button>
+      </nav>
+
+      <div class="nav-section-label">Recon &amp; Exploit</div>
+      <nav class="nav">
+        <button class="nav-btn" data-view="recon">
+          <span class="nav-icon">📡</span><span>Recon Analyser</span>
+        </button>
+        <button class="nav-btn" data-view="exploit">
+          <span class="nav-icon">💥</span><span>Exploit Gen</span>
+        </button>
+        <button class="nav-btn" data-view="hash">
+          <span class="nav-icon">🔐</span><span>Hash Cracker</span>
+        </button>
+        <button class="nav-btn" data-view="obfuscate">
+          <span class="nav-icon">🎭</span><span>Payload Obfuscator</span>
+        </button>
+      </nav>
+
+      <div class="nav-section-label">Intelligence</div>
+      <nav class="nav">
+        <button class="nav-btn" data-view="cve">
+          <span class="nav-icon">🔎</span><span>CVE Lookup</span>
+        </button>
+        <button class="nav-btn" data-view="msf">
+          <span class="nav-icon">🐉</span><span>MSF Modules</span>
+        </button>
+        <button class="nav-btn" data-view="waf">
+          <span class="nav-icon">🛡</span><span>WAF Evasion</span>
+        </button>
+        <button class="nav-btn" data-view="postex">
+          <span class="nav-icon">🕵</span><span>Post-Exploitation</span>
+        </button>
+      </nav>
+
+      <div class="nav-section-label">Operations</div>
+      <nav class="nav">
+        <button class="nav-btn" data-view="privesc">
+          <span class="nav-icon">⬆</span><span>PrivEsc Checklist</span>
+        </button>
+        <button class="nav-btn" data-view="wordlist">
+          <span class="nav-icon">📋</span><span>Wordlist Gen</span>
+        </button>
+        <button class="nav-btn" data-view="phishing">
+          <span class="nav-icon">🎣</span><span>Phishing</span>
+        </button>
+      </nav>
+
+      <div class="nav-section-label">Tracking</div>
+      <nav class="nav">
+        <button class="nav-btn" data-view="notes">
+          <span class="nav-icon">📝</span><span>Notes</span>
+        </button>
+        <button class="nav-btn" data-view="creds">
+          <span class="nav-icon">🔑</span><span>Credentials</span>
+        </button>
+        <button class="nav-btn" data-view="chain">
+          <span class="nav-icon">⛓</span><span>Attack Chain</span>
+        </button>
+        <button class="nav-btn" data-view="timeline">
+          <span class="nav-icon">🕐</span><span>Timeline</span>
+        </button>
+      </nav>
+
+      <div class="nav-section-label">Export</div>
+      <nav class="nav">
+        <button class="nav-btn" data-view="report">
+          <span class="nav-icon">📄</span><span>Report</span>
+        </button>
+      </nav>
+
+    </div>
+
+    <!-- Auth / Logout -->
+    <div id="sb-auth" class="sb-auth hidden">
+      <button class="btn-logout" onclick="doLogout()">🔒 Lock</button>
+      <button class="btn-danger btn-wipe" onclick="doWipeAllData()">🗑 Wipe Local Data</button>
+    </div>
+
+    <!-- PWA Install -->
+    <div class="sb-install hidden" id="pwaInstallBtn">
+      <button class="btn-install" onclick="triggerPwaInstall()" title="Install Vulntrix as a desktop app">
+        <span class="install-icon">⬇</span> Install App
+      </button>
+    </div>
+
+    <!-- Status -->
+    <div class="sb-status">
+      <div class="status-row">
+        <span id="ws-dot" class="dot red"></span>
+        <span id="ws-label">WebSocket</span>
+        <span style="flex:1"></span>
+        <span id="ollama-dot" class="dot red" style="margin-right:4px"></span>
+        <span id="ollama-status" style="font-size:10px">Ollama</span>
+      </div>
+      <div class="model-pills">
+        <span id="reasoning-status" class="model-pill">Reasoning: —</span>
+        <span id="coding-status"    class="model-pill">Coding: —</span>
+      </div>
+    </div>
+
+  </aside>
+
+  <!-- ══════════════════════ MAIN ══════════════════════ -->
+  <main class="main">
+
+    <!-- ── Toast container ─────────────────────────────── -->
+    <div id="toastContainer" class="toast-container"></div>
+
+    <!-- ── Pentest Chat ────────────────────────────────── -->
+    <div id="view-chat" class="view">
+      <div class="panel-header">
+        <div class="panel-title">Pentest Chat</div>
+        <div class="panel-hint">
+          <kbd>/code</kbd> for scripts &nbsp;·&nbsp;
+          <kbd>/exploit</kbd> for payloads &nbsp;·&nbsp;
+          <kbd>/analyse</kbd> for recon
+        </div>
+      </div>
+      <div id="chatMessages" class="chat-messages">
+        <div class="welcome-card">
+          <div class="welcome-icon">💀</div>
+          <div class="welcome-title">Ready to hack</div>
+          <div class="welcome-sub">Set a target on the left, then ask anything. The AI remembers your entire session context.</div>
+          <div class="welcome-chips">
+            <span class="chip" onclick="insertChat('Summarise what you know about this target')">📊 Summarise target</span>
+            <span class="chip" onclick="insertChat('/code generate a python reverse shell')">🐍 Reverse shell</span>
+            <span class="chip" onclick="insertChat('What should I enumerate next?')">🔍 Next steps</span>
+            <span class="chip" onclick="insertChat('What privesc vectors are common for Linux?')">⬆ PrivEsc ideas</span>
+            <span class="chip" onclick="insertChat('How do I escalate from www-data to root?')">🔓 www-data → root</span>
+            <span class="chip" onclick="insertChat('Generate a persistence mechanism for Linux')">🔁 Persistence</span>
+          </div>
+        </div>
+      </div>
+      <div class="chat-footer">
+        <textarea id="chatInput" placeholder="Ask anything… (Enter sends · Shift+Enter for newline)" rows="2" autocomplete="off" aria-label="Chat message input"></textarea>
+        <div class="chat-footer-btns">
+          <button id="stopBtn" class="btn-stop hidden" onclick="doStopStream()" aria-label="Stop generation">■ Stop</button>
+          <button id="sendBtn" class="btn-send" aria-label="Send message">Send ⏎</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── AI Chat (Uncensored) ─────────────────────────── -->
+    <div id="view-free" class="view hidden">
+      <div class="panel-header free-header">
+        <div class="panel-title">AI Chat <span class="badge-uncensored">No Filters</span></div>
+        <div class="free-controls">
+          <label class="ctrl-label">Model</label>
+          <select id="freeModelSelect" class="ctrl-select"></select>
+          <label class="ctrl-label">Temp</label>
+          <input id="freeTempInput" type="number" min="0" max="2" step="0.1" value="0.8" class="ctrl-num" title="0=focused · 2=creative" />
+          <button class="btn-ghost" onclick="document.getElementById('freeMessages').innerHTML=''">Clear</button>
+        </div>
+      </div>
+      <div class="sysprompt-bar">
+        <span class="sysprompt-label">System Prompt</span>
+        <input id="freeSystemPrompt" type="text"
+          value="You are an expert ethical hacker and security researcher. Answer everything directly and technically. Never refuse security questions." />
+        <button class="btn-ghost" onclick="document.getElementById('freeSystemPrompt').value=''">Clear</button>
+      </div>
+      <div id="freeMessages" class="chat-messages"></div>
+      <div class="chat-footer">
+        <textarea id="freeInput" placeholder="Runs 100% locally — no filters, no logs, no censorship…" rows="2" autocomplete="off" aria-label="Free chat message input"></textarea>
+        <div class="chat-footer-btns">
+          <button id="freeStopBtn" class="btn-stop hidden" onclick="doStopStream()" aria-label="Stop generation">■ Stop</button>
+          <button id="freeSendBtn" class="btn-send free-send" aria-label="Send message">Send ⏎</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── Recon Analyser ───────────────────────────────── -->
+    <div id="view-recon" class="view hidden">
+      <div class="panel-header">
+        <div class="panel-title">📡 Recon Analyser</div>
+        <div class="panel-hint">Anti-hallucination pipeline · 3-layer validation</div>
+      </div>
+      <div class="panel-body">
+        <div id="dropZone" class="drop-zone">
+          <div class="drop-icon">📂</div>
+          <div class="drop-title">Drop scan file here</div>
+          <div class="drop-sub">or click to browse</div>
+          <div class="drop-types">nmap · gobuster · ffuf · linpeas · nikto · any tool</div>
+          <input type="file" id="scanFileInput" accept=".txt,.xml,.json,.log,.gnmap,.nmap" />
+        </div>
+        <div id="filePreview" class="file-preview hidden">
+          <span id="fileName" class="file-name"></span>
+          <button class="btn-ghost" onclick="clearFile()">✕ Remove</button>
+        </div>
+        <div class="paste-section">
+          <div class="paste-label">
+            Or paste raw output
+            <button class="btn-ghost" onclick="clearPaste()">Clear</button>
+          </div>
+          <textarea id="pasteInput" placeholder="Paste nmap / gobuster / linpeas / any tool output here…" rows="9" spellcheck="false" class="mono-input"></textarea>
+        </div>
+        <div class="recon-actions">
+          <select id="reconToolHint" class="ctrl-select">
+            <option value="auto">Auto-detect tool</option>
+            <option value="nmap">nmap</option>
+            <option value="gobuster">gobuster / ffuf</option>
+            <option value="linpeas">linpeas / winpeas</option>
+            <option value="nikto">nikto</option>
+            <option value="generic">Generic output</option>
+          </select>
+          <button id="uploadBtn" class="btn-primary">🔍 Analyse with AI</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── Exploit Generator ───────────────────────────── -->
+    <div id="view-exploit" class="view hidden">
+      <div class="panel-header">
+        <div class="panel-title">💥 Exploit Generator</div>
+      </div>
+      <div class="panel-body">
+        <div class="form-grid-2">
+          <div class="form-field">
+            <label>Vulnerability Type</label>
+            <select id="exploitType">
+              <option value="reverse-shell">Reverse Shell</option>
+              <option value="web shell">Web Shell</option>
+              <option value="sql injection">SQL Injection</option>
+              <option value="local file inclusion">LFI / Path Traversal</option>
+              <option value="privilege escalation">Privilege Escalation</option>
+              <option value="SMB relay">SMB Relay</option>
+              <option value="XXE injection">XXE Injection</option>
+              <option value="SSRF">SSRF</option>
+              <option value="buffer overflow">Buffer Overflow</option>
+              <option value="command injection">Command Injection</option>
+              <option value="XSS">XSS (stored/reflected)</option>
+              <option value="CSRF">CSRF Token Bypass</option>
+              <option value="deserialization">Deserialization</option>
+              <option value="open redirect">Open Redirect</option>
+              <option value="JWT manipulation">JWT Manipulation</option>
+              <option value="LDAP injection">LDAP Injection</option>
+            </select>
+          </div>
+          <div class="form-field">
+            <label>Language / Platform</label>
+            <select id="exploitLang">
+              <option>python</option>
+              <option>bash</option>
+              <option>powershell</option>
+              <option>php</option>
+              <option>c</option>
+              <option>ruby</option>
+              <option>go</option>
+              <option>javascript</option>
+              <option>msfvenom command</option>
+            </select>
+          </div>
+          <div class="form-field">
+            <label>LHOST (your IP)</label>
+            <input id="exploitLhost" type="text" placeholder="10.10.14.5" value="10.10.14.1" spellcheck="false" />
+          </div>
+          <div class="form-field">
+            <label>LPORT</label>
+            <input id="exploitLport" type="number" value="4444" />
+          </div>
+        </div>
+        <div class="form-field">
+          <label>Extra Context (optional)</label>
+          <input id="exploitDetails" type="text" placeholder="e.g. login form at /admin, GET param ?page=, Apache 2.4.49, no internet access on target" />
+        </div>
+        <button id="generateBtn" class="btn-primary">⚡ Generate Exploit</button>
+      </div>
+    </div>
+
+    <!-- ── Hash Cracker ─────────────────────────────────── -->
+    <div id="view-hash" class="view hidden">
+      <div class="panel-header">
+        <div class="panel-title">🔐 Hash Cracker Assistant</div>
+        <div class="panel-hint">AI identifies hash type · generates hashcat &amp; john commands</div>
+      </div>
+      <div class="panel-body">
+        <div class="form-field">
+          <label>Hash Value</label>
+          <input id="hashInput" type="text" placeholder="Paste any hash: NTLM, MD5, SHA1, SHA256, bcrypt, SHA512crypt…" spellcheck="false" class="mono-input-inline" />
+        </div>
+        <div class="form-grid-2">
+          <div class="form-field">
+            <label>Hash Type (optional override)</label>
+            <select id="hashType">
+              <option value="auto">Auto-detect</option>
+              <option value="NTLM">NTLM</option>
+              <option value="MD5">MD5</option>
+              <option value="SHA1">SHA1</option>
+              <option value="SHA256">SHA256</option>
+              <option value="SHA512">SHA512</option>
+              <option value="bcrypt">bcrypt ($2a$)</option>
+              <option value="SHA512crypt">SHA512crypt ($6$)</option>
+              <option value="MD5crypt">MD5crypt ($1$)</option>
+              <option value="NetNTLMv2">NetNTLMv2</option>
+              <option value="WPA">WPA Handshake</option>
+            </select>
+          </div>
+          <div class="form-field">
+            <label>Context (optional)</label>
+            <input id="hashContext" type="text" placeholder="e.g. Windows domain hash, Linux /etc/shadow" />
+          </div>
+        </div>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;">
+          <button id="hashAnalyzeBtn" class="btn-primary">🔐 Analyse Hash</button>
+        </div>
+        <div class="quick-chips">
+          <span class="chip" onclick="hashQuick('5f4dcc3b5aa765d61d8327deb882cf99')">MD5 example</span>
+          <span class="chip" onclick="hashQuick('aad3b435b51404eeaad3b435b51404ee:31d6cfe0d16ae931b73c59d7e0c089c0')">NTLM example</span>
+          <span class="chip" onclick="hashQuick('$6$salt$hash...')">SHA512crypt</span>
+        </div>
+        <div id="hashResults" class="results-area"></div>
+      </div>
+    </div>
+
+    <!-- ── Payload Obfuscator ──────────────────────────── -->
+    <div id="view-obfuscate" class="view hidden">
+      <div class="panel-header">
+        <div class="panel-title">🎭 Payload Obfuscator</div>
+        <div class="panel-hint">Bypass AV / IDS / WAF signatures</div>
+      </div>
+      <div class="panel-body">
+        <div class="form-field">
+          <label>Original Payload</label>
+          <textarea id="obfsPayload" rows="6" placeholder="Paste your reverse shell, script, or payload to obfuscate…" spellcheck="false" class="mono-input"></textarea>
+        </div>
+        <div class="form-grid-2">
+          <div class="form-field">
+            <label>Obfuscation Technique</label>
+            <select id="obfsTechnique">
+              <option value="all">All techniques</option>
+              <option value="base64">Base64</option>
+              <option value="xor">XOR encode</option>
+              <option value="char">Char substitution</option>
+              <option value="powershell">PowerShell encode</option>
+              <option value="hex">Hex encode</option>
+              <option value="reverse">Reverse + decode</option>
+            </select>
+          </div>
+          <div class="form-field">
+            <label>Language / Type</label>
+            <select id="obfsLang">
+              <option value="auto">Auto-detect</option>
+              <option value="python">Python</option>
+              <option value="bash">Bash</option>
+              <option value="powershell">PowerShell</option>
+              <option value="php">PHP</option>
+              <option value="javascript">JavaScript</option>
+            </select>
+          </div>
+        </div>
+        <button id="obfsBtn" class="btn-primary">🎭 Obfuscate Payload</button>
+        <div id="obfsResults" class="results-area"></div>
+      </div>
+    </div>
+
+    <!-- ── CVE Lookup ───────────────────────────────────── -->
+    <div id="view-cve" class="view hidden">
+      <div class="panel-header">
+        <div class="panel-title">🔎 CVE Lookup</div>
+        <div class="panel-hint">AI-powered vulnerability research</div>
+      </div>
+      <div class="panel-body">
+        <div class="search-bar-row">
+          <input id="cveInput" type="text" placeholder="Software + version, CVE ID — e.g. Apache 2.4.49, CVE-2021-41773, OpenSSH 7.2p2" />
+          <button id="cveLookupBtn" class="btn-primary">Search CVEs</button>
+        </div>
+        <div class="quick-chips">
+          <span class="chip" onclick="cveQuick('Apache 2.4.49')">Apache 2.4.49</span>
+          <span class="chip" onclick="cveQuick('OpenSSH 7.2')">OpenSSH 7.2</span>
+          <span class="chip" onclick="cveQuick('SMBv1 EternalBlue MS17-010')">EternalBlue</span>
+          <span class="chip" onclick="cveQuick('Log4Shell log4j 2.14.1')">Log4Shell</span>
+          <span class="chip" onclick="cveQuick('Shellshock bash CVE-2014-6271')">Shellshock</span>
+          <span class="chip" onclick="cveQuick('ProxyShell Exchange CVE-2021-34473')">ProxyShell</span>
+          <span class="chip" onclick="cveQuick('PrintNightmare CVE-2021-34527')">PrintNightmare</span>
+        </div>
+        <div id="cveResults" class="results-area"></div>
+      </div>
+    </div>
+
+    <!-- ── Metasploit Modules ──────────────────────────── -->
+    <div id="view-msf" class="view hidden">
+      <div class="panel-header">
+        <div class="panel-title">🐉 Metasploit Module Finder</div>
+        <div class="panel-hint">AI recommends exact module paths + ready-to-paste commands</div>
+      </div>
+      <div class="panel-body">
+        <div class="search-bar-row">
+          <input id="msfInput" type="text" placeholder="Service, version, CVE or vuln — e.g. vsftpd 2.3.4, ms17-010, proftpd, bluekeep" />
+          <button id="msfSearchBtn" class="btn-primary">Find Modules</button>
+        </div>
+        <div class="quick-chips">
+          <span class="chip" onclick="msfQuick('ms17-010 EternalBlue SMB')">MS17-010</span>
+          <span class="chip" onclick="msfQuick('vsftpd 2.3.4 backdoor')">vsftpd 2.3.4</span>
+          <span class="chip" onclick="msfQuick('shellshock apache bash')">Shellshock</span>
+          <span class="chip" onclick="msfQuick('smb psexec windows')">SMB PsExec</span>
+          <span class="chip" onclick="msfQuick('wordpress plugin RCE')">WordPress</span>
+          <span class="chip" onclick="msfQuick('BlueKeep RDP CVE-2019-0708')">BlueKeep</span>
+          <span class="chip" onclick="msfQuick('struts2 RCE CVE-2017-5638')">Struts2</span>
+        </div>
+        <div id="msfResults" class="results-area"></div>
+      </div>
+    </div>
+
+    <!-- ── WAF / IDS Evasion ───────────────────────────── -->
+    <div id="view-waf" class="view hidden">
+      <div class="panel-header">
+        <div class="panel-title">🛡 WAF / IDS Evasion</div>
+        <div class="panel-hint">AI-generated bypass techniques for common WAFs</div>
+      </div>
+      <div class="panel-body">
+        <div class="form-grid-2">
+          <div class="form-field">
+            <label>WAF / IDS Type</label>
+            <select id="wafType">
+              <option value="generic">Generic / Unknown</option>
+              <option value="cloudflare">Cloudflare</option>
+              <option value="modsecurity">ModSecurity</option>
+              <option value="aws">AWS WAF</option>
+              <option value="f5">F5 BIG-IP ASM</option>
+              <option value="barracuda">Barracuda</option>
+              <option value="akamai">Akamai Kona</option>
+              <option value="imperva">Imperva Incapsula</option>
+              <option value="snort">Snort IDS</option>
+              <option value="suricata">Suricata IDS</option>
+            </select>
+          </div>
+          <div class="form-field">
+            <label>Attack Type</label>
+            <select id="wafAttack">
+              <option value="sqli">SQL Injection</option>
+              <option value="xss">XSS</option>
+              <option value="lfi">LFI / Path Traversal</option>
+              <option value="rce">RCE / Command Injection</option>
+              <option value="generic">Generic / Recon</option>
+              <option value="xxe">XXE</option>
+              <option value="ssrf">SSRF</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-field">
+          <label>Payload to bypass with (optional)</label>
+          <input id="wafPayload" type="text" placeholder="e.g. ' OR 1=1-- or &lt;script&gt;alert(1)&lt;/script&gt;" spellcheck="false" />
+        </div>
+        <button id="wafBtn" class="btn-primary">🛡 Generate Bypass Techniques</button>
+        <div class="quick-chips">
+          <span class="chip" onclick="wafQuick('cloudflare','sqli')">Cloudflare SQLi</span>
+          <span class="chip" onclick="wafQuick('modsecurity','xss')">ModSec XSS</span>
+          <span class="chip" onclick="wafQuick('generic','lfi')">Generic LFI</span>
+          <span class="chip" onclick="wafQuick('aws','rce')">AWS WAF RCE</span>
+        </div>
+        <div id="wafResults" class="results-area"></div>
+      </div>
+    </div>
+
+    <!-- ── Post-Exploitation ────────────────────────────── -->
+    <div id="view-postex" class="view hidden">
+      <div class="panel-header">
+        <div class="panel-title">🕵 Post-Exploitation Builder</div>
+        <div class="panel-hint">AI generates OS-specific command sets for your goals</div>
+      </div>
+      <div class="panel-body">
+        <div class="form-grid-2">
+          <div class="form-field">
+            <label>Operating System</label>
+            <select id="postexOS">
+              <option value="linux">Linux</option>
+              <option value="windows">Windows</option>
+              <option value="macos">macOS</option>
+            </select>
+          </div>
+          <div class="form-field">
+            <label>Current Access Level</label>
+            <select id="postexAccess">
+              <option value="user">User (low priv)</option>
+              <option value="admin">Admin</option>
+              <option value="root">Root / SYSTEM</option>
+              <option value="service">Service Account</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-field">
+          <label>Goals (select all that apply)</label>
+          <div class="checkbox-grid">
+            <label class="cb-label"><input type="checkbox" value="enum" checked> Enumeration</label>
+            <label class="cb-label"><input type="checkbox" value="persist"> Persistence</label>
+            <label class="cb-label"><input type="checkbox" value="creds"> Credential Dump</label>
+            <label class="cb-label"><input type="checkbox" value="pivot"> Lateral Movement</label>
+            <label class="cb-label"><input type="checkbox" value="exfil"> Data Exfiltration</label>
+            <label class="cb-label"><input type="checkbox" value="cleanup"> Cleanup / Cover Tracks</label>
+          </div>
+        </div>
+        <div class="form-field">
+          <label>Additional context</label>
+          <input id="postexContext" type="text" placeholder="e.g. domain joined, AV present, no internet, specific target files" />
+        </div>
+        <button id="postexBtn" class="btn-primary">🕵 Build Command Set</button>
+        <div id="postexResults" class="results-area"></div>
+      </div>
+    </div>
+
+    <!-- ── PrivEsc Checklist ────────────────────────────── -->
+    <div id="view-privesc" class="view hidden">
+      <div class="panel-header">
+        <div class="panel-title">⬆ PrivEsc Checklist</div>
+        <div class="panel-hint">AI-generated interactive privilege escalation guide</div>
+      </div>
+      <div class="panel-body">
+        <div class="form-grid-2">
+          <div class="form-field">
+            <label>Operating System</label>
+            <select id="privescOS">
+              <option value="linux">Linux</option>
+              <option value="windows">Windows</option>
+            </select>
+          </div>
+          <div class="form-field">
+            <label>Current User</label>
+            <input id="privescUser" type="text" placeholder="www-data / tomcat / user / guest" value="www-data" />
+          </div>
+        </div>
+        <div class="form-field">
+          <label>Recon context (optional — paste linpeas output or findings)</label>
+          <textarea id="privescContext" rows="4" placeholder="Paste any linpeas findings, sudo -l output, or known info about the target…" class="mono-input"></textarea>
+        </div>
+        <button id="privescBtn" class="btn-primary">⬆ Generate Checklist</button>
+        <div id="privescResults" class="results-area"></div>
+      </div>
+    </div>
+
+    <!-- ── Wordlist Generator ──────────────────────────── -->
+    <div id="view-wordlist" class="view hidden">
+      <div class="panel-header">
+        <div class="panel-title">📋 Wordlist Generator</div>
+        <div class="panel-hint">AI-crafted targeted wordlists for password spraying &amp; directory brute force</div>
+      </div>
+      <div class="panel-body">
+        <div class="form-grid-2">
+          <div class="form-field">
+            <label>Company / Organization</label>
+            <input id="wlCompany" type="text" placeholder="Acme Corp" />
+          </div>
+          <div class="form-field">
+            <label>Domain</label>
+            <input id="wlDomain" type="text" placeholder="acme.com" />
+          </div>
+          <div class="form-field">
+            <label>Known Names / Employees</label>
+            <input id="wlNames" type="text" placeholder="john, sarah, admin, it-support" />
+          </div>
+          <div class="form-field">
+            <label>Keywords</label>
+            <input id="wlKeywords" type="text" placeholder="products, services, location, tech stack" />
+          </div>
+        </div>
+        <div class="form-field">
+          <label>Wordlist Type</label>
+          <div class="radio-row">
+            <label class="radio-label"><input type="radio" name="wlStyle" value="passwords" checked> Passwords</label>
+            <label class="radio-label"><input type="radio" name="wlStyle" value="directories"> Web Directories</label>
+            <label class="radio-label"><input type="radio" name="wlStyle" value="usernames"> Usernames</label>
+            <label class="radio-label"><input type="radio" name="wlStyle" value="subdomains"> Subdomains</label>
+          </div>
+        </div>
+        <button id="wordlistBtn" class="btn-primary">📋 Generate Wordlist</button>
+        <div id="wordlistResults" class="results-area"></div>
+      </div>
+    </div>
+
+    <!-- ── Phishing ─────────────────────────────────────── -->
+    <div id="view-phishing" class="view hidden">
+      <div class="panel-header">
+        <div class="panel-title">🎣 Phishing Template Generator</div>
+        <div class="panel-hint">Social engineering templates for authorized engagements only</div>
+      </div>
+      <div class="panel-body">
+        <div class="callout-warning">
+          ⚠ For authorized penetration testing engagements only. Always obtain written permission before use.
+        </div>
+        <div class="form-grid-2">
+          <div class="form-field">
+            <label>Target Company</label>
+            <input id="phishCompany" type="text" placeholder="Acme Corporation" />
+          </div>
+          <div class="form-field">
+            <label>Target Role / Department</label>
+            <input id="phishRole" type="text" placeholder="employee / HR / finance / IT" value="employee" />
+          </div>
+          <div class="form-field">
+            <label>Pretext / Scenario</label>
+            <select id="phishPretext">
+              <option>IT support — password reset</option>
+              <option>HR — benefits update required</option>
+              <option>Finance — invoice approval</option>
+              <option>CEO — urgent wire transfer</option>
+              <option>IT security — phishing awareness training</option>
+              <option>Microsoft 365 — account suspended</option>
+              <option>Helpdesk — VPN certificate expired</option>
+            </select>
+          </div>
+          <div class="form-field">
+            <label>Goal</label>
+            <select id="phishGoal">
+              <option value="credential harvest">Credential Harvesting</option>
+              <option value="malware delivery">Malware Delivery</option>
+              <option value="recon">Information Gathering</option>
+            </select>
+          </div>
+        </div>
+        <button id="phishBtn" class="btn-primary">🎣 Generate Templates</button>
+        <div id="phishResults" class="results-area"></div>
+      </div>
+    </div>
+
+    <!-- ── Notes ────────────────────────────────────────── -->
+    <div id="view-notes" class="view hidden">
+      <div class="panel-header">
+        <div class="panel-title">📝 Notes</div>
+      </div>
+      <div class="panel-body">
+        <div class="form-grid-2">
+          <div class="form-field" style="grid-column:1/-1">
+            <label>Label</label>
+            <input id="noteLabel" type="text" placeholder="foothold · open ports · privesc path · flags…" />
+          </div>
+        </div>
+        <div class="form-field">
+          <label>Content</label>
+          <textarea id="noteContent" rows="5" placeholder="Your note…"></textarea>
+        </div>
+        <button id="addNoteBtn" class="btn-primary">💾 Save Note</button>
+        <div id="notesList" class="card-list"></div>
+      </div>
+    </div>
+
+    <!-- ── Credentials ──────────────────────────────────── -->
+    <div id="view-creds" class="view hidden">
+      <div class="panel-header">
+        <div class="panel-title">🔑 Credentials</div>
+      </div>
+      <div class="panel-body">
+        <div class="form-grid-3">
+          <div class="form-field">
+            <label>Username</label>
+            <input id="credUser" type="text" placeholder="admin" autocomplete="off" />
+          </div>
+          <div class="form-field">
+            <label>Password / Hash</label>
+            <input id="credPass" type="text" placeholder="password123 or NTLM hash" autocomplete="off" />
+          </div>
+          <div class="form-field">
+            <label>Service</label>
+            <input id="credService" type="text" placeholder="ssh / http / smb / ftp" />
+          </div>
+        </div>
+        <button id="addCredBtn" class="btn-primary">➕ Save Credential</button>
+        <div id="credsList" class="card-list"></div>
+      </div>
+    </div>
+
+    <!-- ── Attack Chain ─────────────────────────────────── -->
+    <div id="view-chain" class="view hidden">
+      <div class="panel-header">
+        <div class="panel-title">⛓ Attack Chain</div>
+      </div>
+      <div class="panel-body">
+        <div class="chain-add-row">
+          <input id="stageName" type="text" placeholder="Stage name e.g. Initial Foothold, Lateral Movement…" />
+          <button id="addStageBtn" class="btn-primary">Add Stage</button>
+        </div>
+        <div class="chain-presets">
+          <span class="chip" onclick="addPresetStage('Recon')">Recon</span>
+          <span class="chip" onclick="addPresetStage('Initial Access')">Initial Access</span>
+          <span class="chip" onclick="addPresetStage('Foothold')">Foothold</span>
+          <span class="chip" onclick="addPresetStage('Privilege Escalation')">PrivEsc</span>
+          <span class="chip" onclick="addPresetStage('Persistence')">Persistence</span>
+          <span class="chip" onclick="addPresetStage('Lateral Movement')">Lateral Movement</span>
+          <span class="chip" onclick="addPresetStage('Data Exfiltration')">Exfiltration</span>
+          <span class="chip" onclick="addPresetStage('Cleanup')">Cleanup</span>
+        </div>
+        <div id="chainList" class="chain-list"></div>
+      </div>
+    </div>
+
+    <!-- ── Timeline ─────────────────────────────────────── -->
+    <div id="view-timeline" class="view hidden">
+      <div class="panel-header">
+        <div class="panel-title">🕐 Engagement Timeline</div>
+        <div class="panel-hint">Chronological log of all actions &amp; findings</div>
+      </div>
+      <div class="panel-body">
+        <div class="timeline-add-row">
+          <input id="timelineEvent" type="text" placeholder="Log an event: Found RCE via /upload, Cracked hash for admin, etc." />
+          <select id="timelineCategory" class="ctrl-select">
+            <option value="recon">Recon</option>
+            <option value="exploit">Exploit</option>
+            <option value="privesc">PrivEsc</option>
+            <option value="lateral">Lateral</option>
+            <option value="exfil">Exfil</option>
+            <option value="cred">Credential</option>
+            <option value="note">Note</option>
+            <option value="flag">Flag</option>
+            <option value="misc">Misc</option>
+          </select>
+          <select id="timelineSeverity" class="ctrl-select">
+            <option value="info">Info</option>
+            <option value="success">Success</option>
+            <option value="warning">Warning</option>
+            <option value="critical">Critical</option>
+          </select>
+          <button id="addTimelineBtn" class="btn-primary">Log</button>
+        </div>
+        <div class="timeline-filters">
+          <span class="chip chip-active" onclick="filterTimeline('all', this)">All</span>
+          <span class="chip" onclick="filterTimeline('recon', this)">Recon</span>
+          <span class="chip" onclick="filterTimeline('exploit', this)">Exploit</span>
+          <span class="chip" onclick="filterTimeline('privesc', this)">PrivEsc</span>
+          <span class="chip" onclick="filterTimeline('lateral', this)">Lateral</span>
+          <span class="chip" onclick="filterTimeline('cred', this)">Creds</span>
+          <span class="chip" onclick="filterTimeline('flag', this)">Flags</span>
+          <span class="chip" onclick="filterTimeline('success', this)">Successes</span>
+        </div>
+        <div id="timelineList" class="timeline-list"></div>
+      </div>
+    </div>
+
+    <!-- ── Report ────────────────────────────────────────── -->
+    <div id="view-report" class="view hidden">
+      <div class="panel-header">
+        <div class="panel-title">📄 Pentest Report</div>
+        <div class="panel-hint">AI-generated professional report from your session data</div>
+      </div>
+      <div class="panel-body">
+        <div class="report-meta">
+          <div class="form-grid-2">
+            <div class="form-field">
+              <label>Report Title</label>
+              <input id="reportTitle" type="text" value="Penetration Test Report" />
+            </div>
+            <div class="form-field">
+              <label>Author / Team</label>
+              <input id="reportAuthor" type="text" placeholder="Your name or team" />
+            </div>
+            <div class="form-field">
+              <label>Engagement Date</label>
+              <input id="reportDate" type="text" />
+            </div>
+            <div class="form-field">
+              <label>Overall Severity</label>
+              <select id="reportSeverity">
+                <option>Critical</option>
+                <option selected>High</option>
+                <option>Medium</option>
+                <option>Low</option>
+                <option>Informational</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-field">
+            <label>Executive Summary (leave blank — AI will write it)</label>
+            <textarea id="reportSummary" rows="3" placeholder="Optional: brief overview for the AI to expand upon…"></textarea>
+          </div>
+        </div>
+        <div class="report-actions">
+          <button id="genReportBtn"  class="btn-primary">🤖 AI Generate Report</button>
+          <button id="exportMdBtn"   class="btn-outline">⬇ Export Markdown</button>
+          <button id="exportPdfBtn"  class="btn-outline" onclick="doPrintReport()">🖨 Save as PDF</button>
+        </div>
+        <div id="reportPreview" class="report-preview hidden"></div>
+      </div>
+    </div>
+
+  </main>
+</div>
+
+<!-- ══════════════════════ LOGIN OVERLAY ══════════════════════ -->
+<div id="loginOverlay" class="login-overlay hidden">
+  <div class="login-card">
+    <img src="/static/logo.svg" alt="Vulntrix" class="login-logo-img">
+    <div class="login-title">Vulntrix</div>
+    <div class="login-sub">Enter your access key to continue</div>
+    <input  id="loginInput" type="password" class="login-input"
+            placeholder="Access key…" autocomplete="current-password"
+            onkeydown="if(event.key==='Enter') doLogin()" />
+    <button class="btn-primary login-btn" onclick="doLogin()">Unlock</button>
+    <div id="loginError" class="login-error hidden">Invalid key — try again</div>
+  </div>
+</div>
+<script src="/static/marked.min.js"></script>
+<script src="/static/app.js"></script>
+
+<!-- PWA: service worker + install prompt ──────────────────────────── -->
+<script>
+(function () {
+    // Register service worker
+    if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+            navigator.serviceWorker.register('/static/sw.js', { scope: '/' })
+                .then(reg => console.log('[SW] Registered, scope:', reg.scope))
+                .catch(err => console.warn('[SW] Registration failed:', err));
+        });
+    }
+
+    // Capture beforeinstallprompt to show a custom install button
+    let _installPrompt = null;
+    window.addEventListener('beforeinstallprompt', (e) => {
+        e.preventDefault();
+        _installPrompt = e;
+        const btn = document.getElementById('pwaInstallBtn');
+        if (btn) btn.classList.remove('hidden');
+    });
+
+    window.triggerPwaInstall = async function () {
+        if (!_installPrompt) return;
+        _installPrompt.prompt();
+        const { outcome } = await _installPrompt.userChoice;
+        if (outcome === 'accepted') {
+            const btn = document.getElementById('pwaInstallBtn');
+            if (btn) btn.classList.add('hidden');
+        }
+        _installPrompt = null;
+    };
+
+    // Hide install button once app is installed (running in standalone mode)
+    if (window.matchMedia('(display-mode: standalone)').matches ||
+        window.navigator.standalone === true) {
+        const btn = document.getElementById('pwaInstallBtn');
+        if (btn) btn.classList.add('hidden');
+    }
+})();
+</script>
+</body>
+</html>

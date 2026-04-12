@@ -1,0 +1,13 @@
+[Desktop Entry]
+Version=1.0
+Type=Application
+Name=Vulntrix
+GenericName=Pentest Assistant
+Comment=Local AI-powered penetration testing suite
+Exec=/bin/bash -c "cd INSTALL_DIR && ./start.sh --tray"
+Icon=INSTALL_DIR/web_ui/logo.svg
+Terminal=false
+StartupNotify=true
+Categories=Security;Network;
+Keywords=pentest;security;hacking;nmap;exploit;
+StartupWMClass=Vulntrix

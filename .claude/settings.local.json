@@ -1,0 +1,8 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(grep -n \"br\\\\|<br\\\\|replace.*\\\\\\\\\\\\\\\\n\\\\|newline\\\\|format_response\\\\|\\\\\\\\\\\\\\\\n.*br\" \"C:\\\\Users\\\\aarus\\\\OneDrive\\\\Desktop\\\\Pyhton Projects\\\\Vulntrix-Local-AI/web_server.py\")",
+      "Bash(grep -n \"br\\\\|format\\\\|replace\\\\|html\\\\|\\\\\\\\\\\\\\\\n\" \"C:\\\\Users\\\\aarus\\\\OneDrive\\\\Desktop\\\\Pyhton Projects\\\\Vulntrix-Local-AI/web_server.py\")"
+    ]
+  }
+}

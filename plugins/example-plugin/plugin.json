@@ -1,0 +1,10 @@
+{
+  "name": "Example Plugin",
+  "version": "1.0.0",
+  "description": "Template for building custom plugins",
+  "author": "You",
+  "category": "utility",
+  "commands": [],
+  "enabled": false,
+  "readme": "Drop a plugin.json into any subfolder of /plugins/ to register it. Commands defined here can add custom API endpoints."
+}
