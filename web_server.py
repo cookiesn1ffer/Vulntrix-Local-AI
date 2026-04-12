@@ -1358,11 +1358,14 @@ if __name__ == "__main__":
     if auth.AUTH_ENABLED:
         log.info("Auth ENABLED — session TTL %d h", auth.SESSION_TTL // 3600)
 
+<<<<<<< HEAD
     # Windows ProactorEventLoop raises spurious ConnectionResetError on TLS
     # connection drops. SelectorEventLoop avoids this noise entirely.
     if sys.platform == "win32":
         asyncio.set_event_loop_policy(asyncio.WindowsSelectorEventLoopPolicy())
 
+=======
+>>>>>>> d7101574717a7a3e5ab546aead0e812542d08d04
     uvicorn.run(
         app,
         host        = "127.0.0.1",      # localhost only — no LAN exposure

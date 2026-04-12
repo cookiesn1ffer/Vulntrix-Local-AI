@@ -23,6 +23,7 @@ class SystemPrompts:
         "  • Explain your reasoning clearly so the human can learn\n"
         "Never produce generic advice — be specific, technical, and concrete. "
         "Focus on what matters most for gaining initial access or escalating "
+<<<<<<< HEAD
         "privileges.  Always note assumptions you are making.\n"
         "FORMATTING RULES (strictly follow):\n"
         "  • Use Markdown only — never output HTML tags such as <br>, <p>, "
@@ -32,6 +33,9 @@ class SystemPrompts:
         "blocks (```bash ... ```) — never single backticks for multi-line "
         "content.\n"
         "  • Never place multiple commands on one line separated by <br>."
+=======
+        "privileges.  Always note assumptions you are making."
+>>>>>>> d7101574717a7a3e5ab546aead0e812542d08d04
     )
 
     CODING = (
@@ -46,9 +50,13 @@ class SystemPrompts:
         "  • Handle errors gracefully\n"
         "  • Prefer standard-library solutions where practical, but import "
         "third-party libs when they improve clarity or reliability\n"
+<<<<<<< HEAD
         "Output ONLY the code block and a brief description — no preamble.\n"
         "FORMATTING: Use Markdown only. Never output HTML tags. "
         "Always use triple-backtick fenced code blocks."
+=======
+        "Output ONLY the code block and a brief description — no preamble."
+>>>>>>> d7101574717a7a3e5ab546aead0e812542d08d04
     )
 
     NOTE_TAKER = (
